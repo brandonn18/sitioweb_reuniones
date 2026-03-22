@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MeetFlow - Sala de videoconferencia en tiempo real">
+  <title>MeetFlow — Sala de Reunión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/room.css">
+</head>
+<body class="room-body">
+  <!-- Top Bar -->
+  <header class="room-header">
+    <div class="room-header-left">
+      <div class="logo logo-sm">
+        <div class="logo-icon logo-icon-sm">
+          <i class="fas fa-video"></i>
+        </div>
+        <span class="logo-text">Meet<span class="logo-accent">Flow</span></span>
+      </div>
+    </div>
+    <div class="room-header-center">
+      <div class="room-info">
+        <span class="room-code-label">Sala:</span>
+        <span class="room-code-value" id="header-room-code">------</span>
+        <button class="btn-icon btn-icon-sm" id="btn-header-copy" title="Copiar código">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+      <div class="room-timer" id="room-timer">00:00</div>
+    </div>
+    <div class="room-header-right">
+      <div class="participant-count" id="participant-count">
+        <i class="fas fa-users"></i>
+        <span>1</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="room-main">
+    <!-- Video Grid -->
+    <div class="video-grid" id="video-grid">
+      <!-- Local Video -->
+      <div class="video-tile video-tile-local" id="local-tile">
+        <video id="local-video" autoplay muted playsinline></video>
+        <div class="video-overlay">
+          <span class="video-username" id="local-username">Tú</span>
+          <div class="video-indicators">
+            <span class="indicator indicator-mic" id="local-mic-indicator">
+              <i class="fas fa-microphone"></i>
+            </span>
+          </div>
+        </div>
+        <div class="video-no-cam" id="local-no-cam" style="display: none;">
+          <div class="avatar-circle">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Panel -->
+    <aside class="chat-panel" id="chat-panel">
+      <div class="chat-header">
+        <h3><i class="fas fa-comments"></i> Chat</h3>
+        <button class="btn-icon" id="btn-close-chat">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-empty">
+          <i class="fas fa-comment-dots"></i>
+          <p>No hay mensajes aún</p>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off">
+        <button class="btn-icon btn-send" id="btn-send-chat">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Bottom Toolbar -->
+  <footer class="room-toolbar">
+    <div class="toolbar-group">
+      <button class="toolbar-btn" id="btn-mic" title="Micrófono">
+        <i class="fas fa-microphone"></i>
+        <span class="toolbar-label">Mic</span>
+      </button>
+      <button class="toolbar-btn" id="btn-camera" title="Cámara">
+        <i class="fas fa-video"></i>
+        <span class="toolbar-label">Cámara</span>
+      </button>
+      <button class="toolbar-btn" id="btn-screen" title="Compartir Pantalla">
+        <i class="fas fa-desktop"></i>
+        <span class="toolbar-label">Pantalla</span>
+      </button>
+      <button class="toolbar-btn" id="btn-file" title="Compartir Archivo">
+        <i class="fas fa-file-upload"></i>
+        <span class="toolbar-label">Archivo</span>
+      </button>
+      <button class="toolbar-btn" id="btn-chat" title="Chat">
+        <i class="fas fa-comments"></i>
+        <span class="toolbar-label">Chat</span>
+        <span class="chat-badge" id="chat-badge" style="display: none;">0</span>
+      </button>
+    </div>
+    <div class="toolbar-group">
+      <button class="toolbar-btn toolbar-btn-leave" id="btn-leave" title="Salir">
+        <i class="fas fa-phone-slash"></i>
+        <span class="toolbar-label">Salir</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Hidden file input -->
+  <input type="file" id="file-input" style="display: none;">
+
+  <!-- Leave confirmation modal -->
+  <div class="modal-overlay" id="modal-leave" style="display: none;">
+    <div class="glass-card modal-card">
+      <div class="modal-icon modal-icon-warn">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h2 class="card-title">¿Salir de la reunión?</h2>
+      <p class="card-desc">Se cerrarán todas tus conexiones.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-cancel-leave">Cancelar</button>
+        <button class="btn btn-danger" id="btn-confirm-leave">Salir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/room.js"></script>
+</body>
+</html>
